@@ -1,4 +1,4 @@
-/***************************************************************************/    
+/***************************************************************************/
 //            Hardware: RadioShack Tricolor LED Strip
 //            Arduino IDE: Arduino-1.0
 //            Date:      April 17, 2013
@@ -133,35 +133,27 @@ PROGMEM const unsigned long pattern_test_rainbow[10][10]={
   {0xff7f00,0xffff00,0x00ff00,0x0000ff,0x6f00ff,0x8f00ff,0x000000,0x000000,0x000000,0xff0000},
 };
 
-
-
-
 // ***********************************************************************************************************
 // *
 // *                            Power Up Init.
 // *
 // *
 // ***********************************************************************************************************
-void setup() {                
+void setup() {
 
   STRIP_PINOUT;        // set output pin - DEBUG: should auto detect which mother board for use
-
   reset_strip();
   //noInterrupts();
-
 }
 
-
-
 // ***********************************************************************************************************
 // *
-// *                            Main Loop 
+// *                            Main Loop
 // *
 // *
 // ***********************************************************************************************************
-void loop() 
+void loop()
 {
-
   send_1M_pattern(pattern_test_red, 10, 500);
   delay(500);
   send_1M_pattern(pattern_test_blue, 10, 500);
@@ -176,9 +168,7 @@ void loop()
   delay(500);
   send_1M_pattern(pattern_test_comet3, 10, 70);
   delay(500);
-  
-  
-  
+
   while (1)
   {
     send_1M_pattern(pattern_test_rainbow, 10, 70);
@@ -199,9 +189,9 @@ void loop()
 /*******************************************************************************
  * Function Name  : send_1M_pattern
  * Description    : Transmit pattern to whole 1 meter strip
- *                  
+ *
  * Input          : pointer to ROM pattern; pattern length; frame rate
- *                  
+ *
  * Output         : None
  * Return         : None
  *******************************************************************************/
@@ -220,23 +210,17 @@ void send_1M_pattern(const unsigned long data[][10], int pattern_no, int frame_r
       send_strip(temp_data);
     }
     interrupts();
-
     delay(frame_rate);
-
   }
-
-
-
-
 }
 
 
 /*******************************************************************************
  * Function Name  : send_strip
  * Description    : Transmit 24 pulse to LED strip
- *                  
+ *
  * Input          : 24-bit data for the strip
- *                  
+ *
  * Output         : None
  * Return         : None
  *******************************************************************************/
@@ -244,9 +228,7 @@ void send_strip(uint32_t data)
 {
   int i;
   unsigned long j=0x800000;
-  
- 
-  for (i=0;i<24;i++)
+    for (i=0;i<24;i++)
   {
     if (data & j)
     {
@@ -259,7 +241,6 @@ void send_strip(uint32_t data)
       __asm__("nop\n\t");
       __asm__("nop\n\t");
       __asm__("nop\n\t");
-      __asm__("nop\n\t");    
       __asm__("nop\n\t");
       __asm__("nop\n\t");
       __asm__("nop\n\t");
@@ -269,19 +250,20 @@ void send_strip(uint32_t data)
       __asm__("nop\n\t");
       __asm__("nop\n\t");
       __asm__("nop\n\t");
-      
+      __asm__("nop\n\t");
+
 /*----------------------------*/
       __asm__("nop\n\t");
       __asm__("nop\n\t");
       __asm__("nop\n\t");
       __asm__("nop\n\t");
-      __asm__("nop\n\t");  
       __asm__("nop\n\t");
       __asm__("nop\n\t");
-      __asm__("nop\n\t");  
-      __asm__("nop\n\t");  
-      __asm__("nop\n\t");        
-/*----------------------------*/      
+      __asm__("nop\n\t");
+      __asm__("nop\n\t");
+      __asm__("nop\n\t");
+      __asm__("nop\n\t");
+/*----------------------------*/
       DATA_0;
     }
     else
@@ -295,28 +277,27 @@ void send_strip(uint32_t data)
       __asm__("nop\n\t");
       __asm__("nop\n\t");
       __asm__("nop\n\t");
-      __asm__("nop\n\t");    
+      __asm__("nop\n\t");
       DATA_0;
-/*----------------------------*/      
+/*----------------------------*/
        __asm__("nop\n\t");
       __asm__("nop\n\t");
-      __asm__("nop\n\t");      
-/*----------------------------*/         
+      __asm__("nop\n\t");
+/*----------------------------*/
     }
-
     j>>=1;
   }
 
 
-  
+
 }
 
 /*******************************************************************************
  * Function Name  : reset_strip
  * Description    : Send reset pulse to reset all color of the strip
- *                  
+ *
  * Input          : None
- *                  
+ *
  * Output         : None
  * Return         : None
  *******************************************************************************/
